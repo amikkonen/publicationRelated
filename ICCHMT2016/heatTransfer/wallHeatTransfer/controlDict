@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     XXX;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.1;
+
+deltaT          1e-05;
+
+writeControl    timeStep;
+
+writeInterval   10;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+{
+    wallHeatTransfer
+    {
+        // Type of functionObject
+        type            wallHeatTransfer;
+
+        // Where to load it from (if not already in solver)
+        functionObjectLibs ("libheatTransferFunctionObjects.so");
+
+        // Function object enabled flag
+        enabled         true;
+
+        // Log to output (default: true)
+        log             false;
+
+/*        // write wall heat flux to time directory (default: true)*/
+/*        writeHeatFlux  true;*/
+
+/*        //- Write heat transfer coefficient to time directory (default: true)*/
+/*        writeHeatTransferCoefficient true;*/
+
+        //- Name of flux field (default: phi) (optional)
+        phiName "phi";
+
+        //- Name of entalpy/internal energy field (default: h) (optional)
+        phiName "h";
+
+        outputControl   timeStep;
+        outputInterval  1;
+
+        // patches to solve heat transfer from
+        patches (wall_glass_accurate);
+
+        // Reference value for heat transfer coefficient (h = q / (Twall - Tref))
+        Tref 300;        
+        
+        // Convergence criteria for mean heat transfer, same for all patches. 
+        // (default: SMALL)
+        converged 1e-4;
+
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,4 @@
+wallHeatTransfer/wallHeatTransfer.C
+wallHeatTransfer/wallHeatTransferFunctionObject.C
+
+LIB = $(FOAM_USER_LIBBIN)/libheatTransferFunctionObjects
